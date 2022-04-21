@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+main header {
+    flex: 0 1 auto;
+}
+
+#content {
+    flex: 1 1 auto;
+}
+
+main footer {
+    flex: 0 1 40px;
+}
+
+.fs-xl {
+    font-size: 3rem !important;
+}
+
+.fs-xxl {
+    font-size: 3.25rem !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+@media (min-width: 576px) {
+    .narrow {
+        max-width: 400px !important;
+    }
+}
