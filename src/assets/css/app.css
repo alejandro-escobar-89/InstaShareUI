@@ -34,7 +34,13 @@ a {
 }
 
 @media (min-width: 576px) {
-    .narrow {
+    .max-w-1 {
         max-width: 400px !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .max-w-2 {
+        max-width: 768px !important;
     }
 }

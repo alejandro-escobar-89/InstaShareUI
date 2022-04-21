@@ -1,9 +1,9 @@
 <template>
-    <p>In construction...</p>
+  <p>In construction...</p>
 </template>
 
 <script>
-    export default {
-        name: 'FileShow',
-    }
+  export default {
+    name: 'FileShow',
+  }
 </script>

@@ -1,11 +1,13 @@
 window._ = require('lodash');
 
 import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.withCredentials = true;
-window.axios.defaults.baseURL = 'http://api.instashare.com';
+window.axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
 /*
 import Echo from 'laravel-echo';

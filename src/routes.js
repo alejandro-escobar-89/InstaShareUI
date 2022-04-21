@@ -30,7 +30,7 @@ const routes = [
 
     // ---------- User ----------
     {
-        name: 'dashboard',
+        name: 'userDashboard',
         path: '/dashboard',
         component: UserDashboard,
     },
