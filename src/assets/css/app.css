@@ -29,13 +29,17 @@ main footer {
     font-size: 3.25rem !important;
 }
 
+.mt-6 {
+    margin-top: 4rem !important;
+}
+
 a {
     text-decoration: none !important;
 }
 
 @media (min-width: 576px) {
     .max-w-1 {
-        max-width: 400px !important;
+        max-width: 420px !important;
     }
 }
 

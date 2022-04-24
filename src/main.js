@@ -6,5 +6,10 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 import App from './App'
 import './assets/css/app.css';
+import ToastWidget from './components/common/ToastWidget';
 
-createApp(App).use(router).use(VueAxios, axios).mount('#app');
+createApp(App)
+  .use(router)
+  .use(VueAxios, axios)
+  .component('ToastWidget', ToastWidget)
+  .mount('#app');
