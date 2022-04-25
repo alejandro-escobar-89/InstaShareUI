@@ -1,6 +1,6 @@
 window._ = require('lodash');
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/sass/app.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 window.axios = require('axios');
