@@ -32,7 +32,10 @@
     data() {
       return {
         processing: false,
-        credentials: {}
+        credentials: {
+          email: '',
+          password: '',
+        }
       }
     },
     methods: {

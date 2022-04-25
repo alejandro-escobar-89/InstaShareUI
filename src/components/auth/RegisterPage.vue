@@ -35,6 +35,8 @@
 </template>
 
 <script>
+  import { auth } from "../../store/auth";
+
   export default {
     name: 'RegisterPage',
     data() {
@@ -53,8 +55,10 @@
         this.processing = true;
 
         this.axios.post('/register', this.credentials).then(() => {
-          this.processing = true;
-          this.$router.push({name: 'userDashboard'});
+          this.axios.get('/api/user').then(({data}) => {
+            auth.setUser(data);
+            this.$router.push({name: 'userDashboard'});
+          });
         }).catch(error => {
           this.processing = false;
 

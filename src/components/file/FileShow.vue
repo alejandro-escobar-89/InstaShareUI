@@ -13,9 +13,9 @@
   <div v-else>
     <div class="card shadow max-w-1 p-4 mx-auto my-5" v-if="('name' in file)">
       <div class="card-body">
-        <h3 class="mb-4">{{ `${file.name}.${file.ext}` }}</h3>
+        <h3 class="mb-4 pb-1">{{ `${file.name}.${file.ext}` }}</h3>
 
-        <p><strong>Uploaded by:</strong> {{ file.owner }}</p>
+        <p><strong>Uploaded by:</strong> {{ file.owner.name }}</p>
         <p><strong>Upload date:</strong> {{ file.created_at }}</p>
         <p>
           <strong>Status:</strong>&nbsp;

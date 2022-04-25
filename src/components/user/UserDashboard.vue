@@ -63,7 +63,7 @@
       loadUserFiles() {
         this.loading = true;
 
-        this.axios.get('/api/files').then(response => {
+        this.axios.get('/api/user/files').then(response => {
           this.files = response.data;
         }).catch(() => {
           alert('An error has occured while processing your request.');

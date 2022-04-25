@@ -34,7 +34,10 @@
     name: 'FileCreate',
     data() {
       return {
-        file: {},
+        file: {
+          name: '',
+          content: '',
+        },
       }
     },
     methods: {

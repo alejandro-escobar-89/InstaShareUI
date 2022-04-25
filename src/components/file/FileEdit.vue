@@ -1,9 +1,7 @@
 <template>
   <div class="d-flex align-items-center justify-content-between gap-4">
     <h2 class="mb-0">Edit file's metadata</h2>
-    <router-link :to="{name: 'userDashboard'}" class="btn btn-outline-secondary">
-      <i class="bi bi-arrow-90deg-left me-2"></i>Back
-    </router-link>
+    <button class="btn btn-outline-secondary" @click="this.$router.back()"><i class="bi bi-arrow-90deg-left me-2"></i>Back</button>
   </div>
   <hr class="mb-5">
 
@@ -34,7 +32,9 @@
     data() {
       return {
         loading: false,
-        file: {},
+        file: {
+          name: '',
+        },
       }
     },
     mounted() {
