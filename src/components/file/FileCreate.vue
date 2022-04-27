@@ -23,7 +23,9 @@
       </div>
 
       <div class="text-end">
-        <button type="submit" class="btn btn-primary mb-3"><i class="bi bi-upload me-2"></i>Upload</button>
+        <button type="submit" class="btn btn-primary mb-3" :disabled="uploading">
+          <i class="bi bi-upload me-2"></i>{{ uploading ? 'Uploading...' : 'Upload' }}
+        </button>
       </div>
     </div>
   </form>
@@ -34,6 +36,7 @@
     name: 'FileCreate',
     data() {
       return {
+        uploading: false,
         file: {
           name: '',
           content: '',
@@ -46,21 +49,23 @@
       },
 
       upload() {
+        this.uploading = true;
+
         // Preparing the payload to be sent with the file.
         const headers = { 'Content-Type': 'multipart/form-data' };
         const formData = new FormData();
         formData.append('name', this.file.name);
         formData.append('content', this.file.content);
 
-        this.axios.post('/api/files', formData, { headers }).catch(error => {
+        this.axios.post('/api/files', formData, { headers }).then(() => {
+          this.$router.push({name: 'userDashboard'});
+        }).catch(error => {
           if (error.response) {
             alert('Error! ' + error.response.data.message + ':\n\n' + error.response.data.errors[0]);
           } else {
             alert('An error has occured while processing your request.');
           }
-        });
-
-        this.$router.push({name: 'userDashboard'});
+        }).finally(() => {this.uploading = false});
       },
     }
   }

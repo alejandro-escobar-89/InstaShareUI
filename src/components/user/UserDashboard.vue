@@ -5,39 +5,52 @@
       <i class="bi bi-upload me-2"></i>Upload file
     </router-link>
   </div>
-  <hr class="mb-5">
+  <hr class="mb-3">
+
+  <p v-if="!loading && !error && (files.length > 0)" class="mb-4-5 text-end small text-muted">
+    The <i class="bi bi-check-circle-fill text-success opacity-75 fs-6"></i> icon means the file is compressed and ready to download, as opposed to the <i class="bi bi-exclamation-circle-fill text-warning opacity-75 fs-6"></i> icon.
+  </p>
 
   <div class="text-center mt-6" v-if="loading">
     <img :src="require('@/assets/images/preloader.svg')" alt="Loading...">
   </div>
   <div v-else>
-    <div class="d-flex flex-wrap gap-5 justify-content-start file-container" v-if="files.length > 0">
-      <div class="file-wrapper" v-for="file in files" :key="file.id">
-        <div class="card shadow">
-          <router-link
-              :to="{name: 'fileShow', params: {id: file.id}}"
-              class="card-body overflow-hidden d-flex justify-content-center align-items-center"
-          >
-            <span class="fs-1 fw-bold text-uppercase text-break text-center lh-1">.{{ file.ext }}</span>
-          </router-link>
-
-          <div class="card-footer d-flex justify-content-between">
-            <button class="btn p-0 fs-5" :disabled="!file.compressed" @click="downloadFile(file)"><i class="bi bi-download"></i></button>
-            <router-link :to="{name: 'fileEdit', params: {id: file.id}}" class="btn p-0 fs-5"><i class="bi bi-pencil-square"></i></router-link>
-            <button class="btn p-0 fs-5" @click="deleteFile(file.id)"><i class="bi bi-x-square-fill text-danger"></i></button>
-          </div>
-        </div>
-
-        <p class="text-center small p-2 pb-0 file-name">{{ file.name }}</p>
-      </div>
+    <div class="alert alert-danger d-flex align-items-center max-w-2 mx-auto mt-5" role="alert" v-if="error">
+      <i class="bi bi-exclamation-triangle-fill fs-3 me-3"></i>
+      <div>Sorry. We were unable to load the file list. Please check the logs for more info.</div>
     </div>
     <div v-else>
-      <p class="text-center mt-3">You haven't uploaded any files yet. Give it a shot!</p>
+      <div class="d-flex flex-wrap gap-5 justify-content-start file-container" v-if="files.length > 0">
+        <div class="file-wrapper" v-for="file in files" :key="file.id">
+          <div class="card shadow">
+            <i v-if="file.compressed" class="bi bi-check-circle-fill text-success opacity-75 fs-4 position-absolute top-0 start-0 translate-middle"></i>
+            <i v-else class="bi bi-exclamation-circle-fill text-warning opacity-75 fs-4 position-absolute top-0 start-0 translate-middle"></i>
 
-      <div class="text-center mt-4">
-        <router-link :to="{name: 'fileCreate'}" class="btn btn-primary">
-          <i class="bi bi-upload me-2"></i>Upload file
-        </router-link>
+            <router-link
+                :to="{name: 'fileShow', params: {id: file.id}}"
+                class="card-body overflow-hidden d-flex justify-content-center align-items-center"
+            >
+              <span class="fs-1 fw-bold text-uppercase text-break text-center lh-1">.{{ file.ext }}</span>
+            </router-link>
+
+            <div class="card-footer d-flex justify-content-between">
+              <button class="btn p-0 fs-5" :class="{ 'opacity-25': !file.compressed }" :disabled="!file.compressed" @click="downloadFile(file)"><i class="bi bi-download"></i></button>
+              <router-link :to="{name: 'fileEdit', params: {id: file.id}}" class="btn p-0 fs-5"><i class="bi bi-pencil-square"></i></router-link>
+              <button class="btn p-0 fs-5" @click="deleteFile(file.id)"><i class="bi bi-x-square-fill text-danger"></i></button>
+            </div>
+          </div>
+
+          <p class="text-center small p-2 pb-0 file-name">{{ file.name }}</p>
+        </div>
+      </div>
+      <div v-else>
+        <p class="text-center mt-5">You haven't uploaded any files yet. Give it a shot!</p>
+
+        <div class="text-center mt-4">
+          <router-link :to="{name: 'fileCreate'}" class="btn btn-primary">
+            <i class="bi bi-upload me-2"></i>Upload file
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -53,6 +66,7 @@
     data() {
       return {
         loading: false,
+        error: false,
         files: [],
       }
     },
@@ -62,12 +76,19 @@
     methods: {
       loadUserFiles() {
         this.loading = true;
+        this.error = false;
 
         this.axios.get('/api/user/files').then(response => {
           this.files = response.data;
-        }).catch(() => {
-          alert('An error has occured while processing your request.');
+        }).catch(error => {
+          this.error = true;
           this.files = [];
+
+          if (error.response) {
+            console.log('Error! ' + error.response.data.message);
+          } else {
+            console.log('An error has occured while processing your request. We were unable to get more information.');
+          }
         }).finally(() => {this.loading = false});
       },
 
@@ -80,7 +101,7 @@
           method: 'GET',
           responseType: 'blob',
         }).then((response) => {
-          fileDownload(response.data, `${file.name}.${file.ext}`);
+          fileDownload(response.data, `${file.name}.zip`, 'application/zip');
           (new Toast(document.getElementById('live-toast'))).show();
         }).catch(error => {
           if (error.response) {

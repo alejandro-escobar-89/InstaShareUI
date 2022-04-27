@@ -19,7 +19,9 @@
         </div>
 
         <div class="text-end">
-          <button type="submit" class="btn btn-primary mb-3"><i class="bi bi-upload me-2"></i>Update</button>
+          <button type="submit" class="btn btn-primary mb-3" :disabled="updating">
+            <i class="bi bi-pencil-square me-2"></i>{{ updating ? 'Updating...' : 'Update' }}
+          </button>
         </div>
       </div>
     </form>
@@ -32,6 +34,7 @@
     data() {
       return {
         loading: false,
+        updating: false,
         file: {
           name: '',
         },
@@ -56,6 +59,8 @@
       },
 
       update() {
+        this.updating = true;
+
         this.axios.put(`/api/files/${this.$route.params.id}`, this.file).then(() => {
           this.$router.back();
         }).catch(error => {
@@ -64,7 +69,7 @@
           } else {
             alert('An error has occured while processing your request.');
           }
-        });
+        }).finally(() => {this.updating = false});
       },
     }
   }

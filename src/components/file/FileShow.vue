@@ -25,7 +25,7 @@
         </p>
 
         <div class="action-buttons d-flex justify-content-between mt-4" v-if="auth.authenticated">
-          <button class="btn p-0 fs-4" :disabled="!file.compressed" @click="downloadFile"><i class="bi bi-download"></i></button>
+          <button class="btn p-0 fs-4" :class="{ 'opacity-25': !file.compressed }" :disabled="!file.compressed" @click="downloadFile"><i class="bi bi-download"></i></button>
           <router-link :to="{name: 'fileEdit', params: {id: file.id}}" class="btn p-0 fs-5"><i class="bi bi-pencil-square"></i></router-link>
           <button class="btn p-0 fs-4" @click="deleteFile"><i class="bi bi-x-square-fill text-danger"></i></button>
         </div>
@@ -78,7 +78,7 @@
           this.file.mime       = mime;
           this.file.compressed = compressed;
           this.file.owner      = owner;
-          this.file.created_at = (uploadDate.getMonth() + 1) + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear();
+          this.file.created_at = (uploadDate.toLocaleString('default', {month: 'long'})) + ' ' + uploadDate.getDate() + ', ' + uploadDate.getFullYear();
         }).catch(error => {
           if (error.response) {
             alert('Error! ' + error.response.data.message);
@@ -97,7 +97,7 @@
           method: 'GET',
           responseType: 'blob',
         }).then((response) => {
-          fileDownload(response.data, `${this.file.name}.${this.file.ext}`);
+          fileDownload(response.data, `${this.file.name}.zip`, 'application/zip');
           (new Toast(document.getElementById('live-toast'))).show();
         }).catch(error => {
           if (error.response) {
