@@ -53,6 +53,21 @@
 
   export default {
     name: 'App',
+    created() {
+      window.Echo.channel('files')
+        .listen('.FileCreated', ({file}) => {
+          console.log('File Created');
+          console.log(file);
+        })
+        .listen('.FileUpdated', ({file}) => {
+          console.log('File Updated');
+          console.log(file);
+        })
+        .listen('.FileDeleted', ({file}) => {
+          console.log('File Deleted');
+          console.log(file);
+        })
+    },
     data() {
       return {
         auth

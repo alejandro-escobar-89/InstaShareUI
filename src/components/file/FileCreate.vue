@@ -57,15 +57,15 @@
         formData.append('name', this.file.name);
         formData.append('content', this.file.content);
 
-        this.axios.post('/api/files', formData, { headers }).then(() => {
-          this.$router.push({name: 'userDashboard'});
-        }).catch(error => {
+        this.axios.post('/api/files', formData, { headers }).catch(error => {
           if (error.response) {
             alert('Error! ' + error.response.data.message + ':\n\n' + error.response.data.errors[0]);
           } else {
             alert('An error has occured while processing your request.');
           }
         }).finally(() => {this.uploading = false});
+
+        this.$router.push({name: 'userDashboard'});
       },
     }
   }

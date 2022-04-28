@@ -17,9 +17,10 @@
 
         <p><strong>Uploaded by:</strong> {{ file.owner.name }}</p>
         <p><strong>Upload date:</strong> {{ file.created_at }}</p>
+        <p><strong>File size:</strong> ###.## KB</p>
         <p>
           <strong>Status:</strong>&nbsp;
-          <span :class="{ 'text-success': file.compressed, 'text-danger': !file.compressed }">
+          <span :class="{ 'text-success': file.compressed, 'text-warning': !file.compressed }">
             {{ file.compressed ? 'Compressed (ready to download)' : 'Undergoing compression' }}
           </span>
         </p>
@@ -30,7 +31,7 @@
           <button class="btn p-0 fs-4" @click="deleteFile"><i class="bi bi-x-square-fill text-danger"></i></button>
         </div>
         <div class="text-center mt-4" v-else>
-          <button class="btn btn-primary w-100" :disabled="!file.compressed" @click="downloadFile">
+          <button class="btn btn-primary w-100" :class="{ 'opacity-25': !file.compressed }" :disabled="!file.compressed" @click="downloadFile">
             <i class="bi bi-download me-2"></i>Download
           </button>
         </div>

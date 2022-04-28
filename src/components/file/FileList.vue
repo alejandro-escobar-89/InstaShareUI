@@ -29,7 +29,7 @@
             </router-link>
 
             <div class="card-footer fs-5 d-flex justify-content-between">
-              <button class="btn btn-sm btn-primary w-100" :disabled="!file.compressed" @click="downloadFile(file)">
+              <button class="btn btn-sm btn-primary w-100" :class="{ 'opacity-25': !file.compressed }" :disabled="!file.compressed" @click="downloadFile(file)">
                 <i class="bi bi-download me-2"></i>Download
               </button>
             </div>
