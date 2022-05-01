@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center fs-xxl fw-bold">Welcome to the InstaShare community!</h1>
+  <h1 class="text-center text-primary fs-xxl fw-bold">Welcome to the InstaShare community!</h1>
   <p class="text-center fs-3 mt-3">A place to share your files freely, quickly, securely.</p>
 
   <div class="row flex-column-reverse flex-lg-row">
@@ -30,9 +30,3 @@
     </div>
   </div>
 </template>
-
-<script>
-  export default {
-    name: 'HomePage',
-  }
-</script>

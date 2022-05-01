@@ -1,14 +1,16 @@
 import { createWebHistory, createRouter } from 'vue-router';
-import HomePage from './components/HomePage';
-import RegisterPage from './components/auth/RegisterPage';
-import LoginPage from './components/auth/LoginPage';
-import UserDashboard from "./components/user/UserDashboard";
-import FileList from './components/file/FileList';
-import FileCreate from './components/file/FileCreate';
-import FileShow from './components/file/FileShow';
-import FileEdit from './components/file/FileEdit';
+// import { storeToRefs } from 'pinia';
+// import { useUserStore } from '../stores/user';
+import HomePage from '../views/HomePage';
+import RegisterPage from '../views/auth/RegisterPage';
+import LoginPage from '../views/auth/LoginPage';
+import UserDashboard from "../views/user/UserDashboard";
+import FileList from '../views/file/FileList';
+import FileCreate from '../views/file/FileCreate';
+import FileShow from '../views/file/FileShow';
+import FileEdit from '../views/file/FileEdit';
 
-const routes = [
+const index = [
   // ---------- Base ----------
   {
     name: 'home',
@@ -67,7 +69,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: routes,
+  routes: index,
   scrollBehavior() {
     // Always scroll to top
     return {top: 0};
@@ -75,11 +77,13 @@ const router = createRouter({
 });
 
 /*router.beforeEach((to) => {
-  if (to.meta.authOnly && !isAuthenticated && (to.name !== 'Login')) {
+  const { authenticated } = storeToRefs(useUserStore());
+
+  if (to.meta.authOnly && !authenticated && (to.name !== 'Login')) {
     return {name: 'login'};
   }
 
-  if (to.meta.guestOnly && isAuthenticated) {
+  if (to.meta.guestOnly && authenticated) {
     return false;
   }
 });*/

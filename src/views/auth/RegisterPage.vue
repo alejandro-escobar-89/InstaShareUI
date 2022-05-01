@@ -34,41 +34,34 @@
   </form>
 </template>
 
-<script>
-  import { auth } from "../../store/auth";
+<script setup>
+  import { ref } from 'vue';
+  import { useUserStore } from '../../stores/user';
+  import { useRouter } from 'vue-router';
+  import { useAppStore } from '../../stores/app';
 
-  export default {
-    name: 'RegisterPage',
-    data() {
-      return {
-        processing: false,
-        credentials: {
-          name: '',
-          email: '',
-          password: '',
-          password_confirmation: '',
-        }
-      }
-    },
-    methods: {
-      register() {
-        this.processing = true;
+  const router = useRouter();
+  const { checkAuthenticated } = useUserStore();
+  const { showError } = useAppStore();
+  const processing = ref(false);
 
-        this.axios.post('/register', this.credentials).then(() => {
-          this.axios.get('/api/user').then(({data}) => {
-            auth.setUser(data);
-            this.$router.push({name: 'userDashboard'});
-          });
-        }).catch(error => {
-          this.processing = false;
+  let credentials = {
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  };
 
-          if (error.response) {
-            alert('Error! ' + error.response.data.message);
-          } else {
-            alert('An error has occured while processing your request.');
-          }
-        });
-      }
-    }
+  const register = () => {
+    processing.value = true;
+
+    window.axios.post('/register', credentials).then(() => {
+      checkAuthenticated(() => {
+        router.push({name: 'userDashboard'});
+      });
+    }).catch(error => {
+      processing.value = false;
+      showError(error);
+    });
   }
 </script>

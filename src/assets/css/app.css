@@ -41,6 +41,15 @@ a {
     text-decoration: none !important;
 }
 
+button.btn:disabled {
+    opacity: 0.4 !important;
+    box-shadow: none !important;
+}
+
+.btn-lg {
+    padding: 8px 17px 9px !important;
+}
+
 @media (min-width: 576px) {
     .max-w-1 {
         max-width: 420px !important;
