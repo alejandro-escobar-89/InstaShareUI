@@ -1,24 +1,13 @@
-# vue-test
+<h1 align="center">InstaShareUI</h1>
 
-## Project setup
-```
-npm install
-```
+<p>A graphical user interface for the InstaShare Rest API.</p>
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+<hr>
 
-### Compiles and minifies for production
-```
-npm run build
-```
+<h3>Tips to test in a local environment</h3>
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+<ol>
+	<li>Clone the repo to your local staging area</li>
+	<li>Create a ".env" file in the root of the project</li>
+	<li>In the command line write the following commands: <br> <code>npm install</code> to install dependencies (requires Node.js to be installed on your system). <br> <code>npm run serve</code> to initialize the server.</li>
+</ul>
