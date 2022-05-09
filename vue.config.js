@@ -5,4 +5,8 @@ module.exports = defineConfig({
   devServer: {
     host: 'ui.instashare.com'
   },
+  // build: {
+    publicPath: '',
+    // assetsPublicPath: '',
+  // },
 });
