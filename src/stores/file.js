@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAppStore } from '../stores/app';
+import { useUserStore } from '../stores/user';
 
 export const useFileStore = defineStore('file', {
   state: () => ({
@@ -23,11 +24,13 @@ export const useFileStore = defineStore('file', {
     },
 
     loadUserFiles() {
+      const { user } = useUserStore();
+
       this.files = [];
       this.loading = true;
       this.error = null;
 
-      window.axios.get('/api/user/files').then(response => {
+      window.axios.get(`/api/files/owner/${user.id}`).then(response => {
         this.files = response.data;
       }).catch(error => {
         this.error = error;

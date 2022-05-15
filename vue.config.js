@@ -5,6 +5,4 @@ module.exports = defineConfig({
   devServer: {
     host: 'ui.instashare.com'
   },
-  outputDir: './docs',
-  publicPath: '',
 });
