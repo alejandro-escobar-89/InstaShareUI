@@ -49,7 +49,7 @@
   const { loadFile } = useFileStore();
 
   const update = () => {
-    window.axios.put(`/api/files/${route.params.id}`, {name: file.value.name}).catch(error => {
+    window.axios.put(`/files/${route.params.id}`, {name: file.value.name}).catch(error => {
       showError(error);
     });
 

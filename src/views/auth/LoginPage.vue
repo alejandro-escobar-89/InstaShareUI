@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="login" class="card rounded-3 shadow-lg my-5 max-w-1 mx-auto">
+  <form @submit.prevent="doLogin" class="card rounded-3 shadow-lg my-5 max-w-1 mx-auto">
     <div class="card-body p-4 px-sm-5">
       <h3 class="text-primary text-center mt-3 mb-5">Log in to your account</h3>
 
@@ -27,34 +27,24 @@
 <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { useUserStore } from '../../stores/user';
-  import { useAppStore } from '../../stores/app';
+  import { useAuthStore } from '../../stores/auth';
 
   const router = useRouter();
-  const { checkAuthenticated } = useUserStore();
-  const { showError } = useAppStore();
   const processing = ref(false);
+  const { login } = useAuthStore();
 
   let credentials = {
     email: '',
     password: '',
   };
 
-  const login = () => {
+  const doLogin = () => {
     processing.value = true;
 
-    window.axios.get('/sanctum/csrf-cookie').then(() => {
-      window.axios.post('/login', credentials).then(() => {
-        checkAuthenticated(() => {
-          router.push({name: 'userDashboard'});
-        });
-      }).catch(error => {
-        processing.value = false;
-        showError(error);
-      });
-    }).catch(error => {
+    login(credentials, () => {
+      router.push({name: 'userDashboard'});
+    }, () => {
       processing.value = false;
-      showError(error);
     });
   }
 </script>

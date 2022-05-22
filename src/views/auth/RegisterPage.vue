@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="register" class="card rounded-3 shadow-lg my-5 max-w-1  mx-auto">
+  <form @submit.prevent="doRegister" class="card rounded-3 shadow-lg my-5 max-w-1  mx-auto">
     <div class="card-body p-4 px-sm-5">
       <h3 class="text-primary text-center mt-3 mb-5">Sign up for free</h3>
 
@@ -36,14 +36,12 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { useUserStore } from '../../stores/user';
   import { useRouter } from 'vue-router';
-  import { useAppStore } from '../../stores/app';
+  import { useAuthStore } from '../../stores/auth';
 
   const router = useRouter();
-  const { checkAuthenticated } = useUserStore();
-  const { showError } = useAppStore();
   const processing = ref(false);
+  const { register } = useAuthStore();
 
   let credentials = {
     name: '',
@@ -52,16 +50,13 @@
     password_confirmation: '',
   };
 
-  const register = () => {
+  const doRegister = () => {
     processing.value = true;
 
-    window.axios.post('/register', credentials).then(() => {
-      checkAuthenticated(() => {
-        router.push({name: 'userDashboard'});
-      });
-    }).catch(error => {
+    register(credentials, () => {
+      router.push({name: 'userDashboard'});
+    }, () => {
       processing.value = false;
-      showError(error);
     });
   }
 </script>

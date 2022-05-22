@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAppStore } from '../stores/app';
-import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
 
 export const useFileStore = defineStore('file', {
   state: () => ({
@@ -16,7 +16,7 @@ export const useFileStore = defineStore('file', {
       this.loading = true;
       this.error = null;
 
-      window.axios.get('/api/files').then(response => {
+      window.axios.get('/files').then(response => {
         this.files = response.data;
       }).catch(error => {
         this.error = error;
@@ -24,13 +24,13 @@ export const useFileStore = defineStore('file', {
     },
 
     loadUserFiles() {
-      const { user } = useUserStore();
+      const { user } = useAuthStore();
 
       this.files = [];
       this.loading = true;
       this.error = null;
 
-      window.axios.get(`/api/files/owner/${user.id}`).then(response => {
+      window.axios.get(`/files/owner/${user.id}`).then(response => {
         this.files = response.data;
       }).catch(error => {
         this.error = error;
@@ -42,7 +42,7 @@ export const useFileStore = defineStore('file', {
       this.loading = true;
       this.error = null;
 
-      window.axios.get(`/api/files/${id}`).then(response => {
+      window.axios.get(`/files/${id}`).then(response => {
         const { id, name, ext, compressed, size, owner, created_at } = response.data;
 
         // Improved rounding function
@@ -72,7 +72,7 @@ export const useFileStore = defineStore('file', {
       const fileDownload = require('js-file-download');
 
       window.axios({
-        url: `/api/files/download/${file.id}`,
+        url: `/files/download/${file.id}`,
         method: 'GET',
         responseType: 'blob',
       }).then((response) => {
@@ -92,7 +92,7 @@ export const useFileStore = defineStore('file', {
       }
 
       if (greenLight) {
-        window.axios.delete(`/api/files/${id}`).catch(error => {
+        window.axios.delete(`/files/${id}`).catch(error => {
           showError(error);
         });
 

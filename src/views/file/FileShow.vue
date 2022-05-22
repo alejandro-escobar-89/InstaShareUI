@@ -59,12 +59,12 @@
 <script setup>
   import { useRoute, useRouter } from 'vue-router';
   import { storeToRefs } from 'pinia';
-  import { useUserStore } from '../../stores/user';
+  import { useAuthStore } from '../../stores/auth';
   import { useFileStore } from "../../stores/file";
 
   const route = useRoute();
   const router = useRouter();
-  const { authenticated } = storeToRefs(useUserStore());
+  const { authenticated } = storeToRefs(useAuthStore());
   const { file, loading, error } = storeToRefs(useFileStore());
   const { loadFile, downloadFile, deleteFile } = useFileStore();
 

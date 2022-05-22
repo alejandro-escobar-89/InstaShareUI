@@ -54,7 +54,7 @@
     formData.append('name', file.name);
     formData.append('content', file.content);
 
-    window.axios.post('/api/files', formData, { headers }).catch(error => {
+    window.axios.post('/files', formData, { headers }).catch(error => {
       showError(error);
     });
 

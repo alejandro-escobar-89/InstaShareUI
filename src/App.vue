@@ -14,7 +14,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarToggler" v-if="!processing">
-          <ul class="navbar-nav align-items-md-center ms-auto mb-2 mb-md-0">
+          <ul class="navbar-nav align-items-md-center ms-auto my-2 my-md-0">
             <li class="nav-item" v-if="!authenticated">
               <router-link :to="{name: 'home'}" class="nav-link">Home</router-link>
             </li>
@@ -31,7 +31,7 @@
               <router-link :to="{name: 'userDashboard'}" class="nav-link">My Files</router-link>
             </li>
             <li class="nav-item ms-md-2 mt-2 mt-md-0" v-if="authenticated">
-              <i class="bi bi-box-arrow-right fs-2 lh-1 nav-link" @click="logout"></i>
+              <i class="bi bi-box-arrow-right fs-2 lh-1 nav-link" @click="doLogout"></i>
             </li>
           </ul>
         </div>
@@ -81,16 +81,14 @@
   import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import { useRouter } from 'vue-router';
-  import { useUserStore } from './stores/user';
-  import { useAppStore } from './stores/app';
   import { useFileStore } from './stores/file';
+  import { useAuthStore } from "./stores/auth";
 
   const router = useRouter();
-  const { authenticated } = storeToRefs(useUserStore());
-  const { checkAuthenticated } = useUserStore();
-  const { showError } = useAppStore();
   const fileStore = useFileStore();
   const processing = ref(true);
+  const { authenticated } = storeToRefs(useAuthStore());
+  const { logout, checkAuthenticated } = useAuthStore();
 
   // Ensure the channel and its listeners are registered only once
   window.Echo.channel('files').stopListening('.FileCreated').stopListening('.FileUpdated').stopListening('.FileDeleted');
@@ -117,14 +115,8 @@
       }
     });
 
-  const logout = () => {
-    window.axios.post('/logout').then(() => {
-      checkAuthenticated(null, () => {
-        router.push({name: 'home'});
-      });
-    }).catch(error => {
-      showError(error);
-    });
+  const doLogout = () => {
+    logout(() => {router.push({name: 'home'})})
   };
 
   checkAuthenticated(() => {
