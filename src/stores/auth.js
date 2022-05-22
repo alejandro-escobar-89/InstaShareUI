@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { useAppStore } from '../stores/app';
 
+const storedTokenKeyName = 'InstaShareUserToken';
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     authenticated: false,
@@ -12,6 +14,12 @@ export const useAuthStore = defineStore('auth', {
       const { showError } = useAppStore();
 
       window.axios.post('/register', credentials).then(({data}) => {
+        try {
+          localStorage.setItem(storedTokenKeyName, data.token);
+        } catch (error) {
+          console.log('Unable to store user token');
+        }
+
         this.authenticated = true;
         this.user = data.user;
         window.axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
@@ -32,6 +40,12 @@ export const useAuthStore = defineStore('auth', {
       const { showError } = useAppStore();
 
       window.axios.post('/login', credentials).then(({data}) => {
+        try {
+          localStorage.setItem(storedTokenKeyName, data.token);
+        } catch (error) {
+          console.log('Unable to store user token');
+        }
+
         this.authenticated = true;
         this.user = data.user;
         window.axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
@@ -52,6 +66,12 @@ export const useAuthStore = defineStore('auth', {
       const { showError } = useAppStore();
 
       window.axios.post('/logout').then(() => {
+        try {
+          localStorage.removeItem(storedTokenKeyName);
+        } catch (error) {
+          console.log('Unable to delete user token');
+        }
+
         this.authenticated = false;
         this.user = {};
         window.axios.defaults.headers.common['Authorization'] = '';
@@ -70,6 +90,11 @@ export const useAuthStore = defineStore('auth', {
 
     checkAuthenticated(onAuthenticated = undefined, onUnauthenticated = undefined) {
       const { showError } = useAppStore();
+      const token = localStorage.getItem(storedTokenKeyName);
+
+      if (token) {
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      }
 
       window.axios.get('/user').then(({data}) => {
         this.authenticated = true;
