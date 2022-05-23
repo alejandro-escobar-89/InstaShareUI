@@ -20,7 +20,7 @@
           The <i class="bi bi-check-circle-fill text-success fs-6"></i> icon means the file is compressed and ready to download, as opposed to the <i class="bi bi-exclamation-circle-fill text-warning fs-6"></i> icon.
         </p>
 
-        <div class="d-flex flex-wrap gap-5 justify-content-start file-container">
+        <div class="d-flex flex-wrap gap-5 justify-content-center justify-content-sm-start file-container">
           <div class="file-wrapper" v-for="file in files" :key="file.id">
             <div class="card shadow position-relative">
               <i v-if="file.compressed" class="bi bi-check-circle-fill text-success fs-4 position-absolute top-0 start-0 translate-middle"></i>

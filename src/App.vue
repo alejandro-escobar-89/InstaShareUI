@@ -14,7 +14,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarToggler" v-if="!processing">
-          <ul class="navbar-nav align-items-md-center ms-auto mb-2 mb-md-0">
+          <ul class="navbar-nav align-items-md-center ms-auto my-2 my-md-0">
             <li class="nav-item" v-if="!authenticated">
               <router-link :to="{name: 'home'}" class="nav-link">Home</router-link>
             </li>
